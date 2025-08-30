@@ -11,7 +11,7 @@ const GeminiModal = () => {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = 'https://builderai-backend.onrender.com/api';
 
   useEffect(() => {
     scrollToBottom();
