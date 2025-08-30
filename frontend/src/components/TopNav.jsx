@@ -21,7 +21,7 @@ const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Code className="w-8 h-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">WebBuilder Pro</span>
+            <span className="text-xl font-bold text-gray-900">Eleven11</span>
           </div>
           
           <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
