@@ -1,7 +1,7 @@
 import React from 'react';
-import { Settings, Palette, Type, Image, Plus, Minus } from 'lucide-react';
+import { Settings, Palette, Type, Image, Plus, Minus, Layout, Columns, Trash2 } from 'lucide-react';
 
-const PropertiesPanel = ({ selectedComponent, updateComponentProps }) => {
+const PropertiesPanel = ({ selectedComponent, updateComponentProps, deleteComponent }) => {
   if (!selectedComponent) {
     return (
       <div className="w-80 bg-white border-l border-gray-200 p-4">
@@ -38,6 +38,55 @@ const PropertiesPanel = ({ selectedComponent, updateComponentProps }) => {
 
   const renderPropertyEditor = () => {
     switch (type) {
+      case 'layout':
+        return (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Layout Type</label>
+              <select
+                value={props.layoutType || 'flex'}
+                onChange={(e) => handleChange('layoutType', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+              >
+                <option value="flex">Flex</option>
+                <option value="grid">Grid</option>
+              </select>
+            </div>
+            {props.layoutType === 'flex' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Flex Direction</label>
+                <select
+                  value={props.flexDirection || 'flex-col'}
+                  onChange={(e) => handleChange('flexDirection', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                >
+                  <option value="flex-col">Column</option>
+                  <option value="flex-row">Row</option>
+                </select>
+              </div>
+            )}
+            {props.layoutType === 'grid' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Grid Columns</label>
+                <input
+                  type="number"
+                  value={props.gridCols || 1}
+                  onChange={(e) => handleChange('gridCols', parseInt(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  min="1"
+                  max="12"
+                />
+              </div>
+            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Add Content Here...</label>
+              <div className="bg-gray-100 p-4 rounded-md text-gray-500 text-sm italic">
+                Drag and drop other components inside this layout block to group them.
+              </div>
+            </div>
+          </div>
+        );
+
       case 'hero':
         return (
           <div className="space-y-4">
@@ -372,11 +421,23 @@ const PropertiesPanel = ({ selectedComponent, updateComponentProps }) => {
   };
 
   return (
-    <div className="w-80 bg-white border-l border-gray-200 p-4">
+    <div className="w-80 bg-white border-l border-gray-200 p-4 overflow-y-auto">
       <div className="flex items-center space-x-2 mb-6">
         <Settings className="w-5 h-5 text-gray-600" />
         <h3 className="text-lg font-semibold text-gray-900 capitalize">{type} Properties</h3>
       </div>
+      
+      {selectedComponent && (
+        <div className="mb-6">
+          <button
+            onClick={() => deleteComponent(selectedComponent.id)}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Delete Component</span>
+          </button>
+        </div>
+      )}
 
       <div className="space-y-6">
         {renderPropertyEditor()}

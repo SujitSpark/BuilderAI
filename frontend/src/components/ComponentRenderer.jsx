@@ -20,6 +20,19 @@ const ComponentRenderer = ({ component }) => {
   };
 
   switch (type) {
+    case 'layout':
+      const layoutClass = props.layoutType === 'flex'
+        ? `flex ${props.flexDirection === 'flex-row' ? 'flex-row' : 'flex-col'}`
+        : `grid grid-cols-${props.gridCols} gap-4`;
+
+      return (
+        <div className={`p-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 m-4 ${layoutClass}`}>
+          <div className="text-sm text-gray-500 italic text-center p-4">
+            Layout Block: Drop components here
+          </div>
+        </div>
+      );
+
     case 'navbar':
       return (
         <nav className="bg-white shadow-sm border-b">

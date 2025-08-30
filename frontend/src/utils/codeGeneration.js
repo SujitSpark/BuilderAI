@@ -12,6 +12,14 @@ export const getHtmlCssCode = (project, canvasComponents) => {
 `;
   canvasComponents.forEach(component => {
     switch (component.type) {
+      case 'layout':
+        const layoutClass = component.props.layoutType === 'flex'
+          ? `${component.props.flexDirection}`
+          : `grid grid-cols-${component.props.gridCols} gap-4`;
+        html += `
+    <div class="p-4 ${layoutClass}">
+        </div>`;
+        break;
       case 'navbar':
         html += `
     <nav class="bg-white shadow-sm border-b">

@@ -1,12 +1,13 @@
 // src/components/ComponentLibrary.jsx
 import React from 'react';
-import { Star, DollarSign, Layout, Mail, User, Database, Globe, Server, Shield, Quote, Rocket, Plus, Users, Navigation } from 'lucide-react';
+import { Star, DollarSign, Layout, Mail, User, Database, Globe, Server, Shield, Quote, Rocket, Plus, Users, Navigation, Grid, Rows } from 'lucide-react';
 import { getDefaultProps } from '../utils/getDefaultProps';
 
 const ComponentLibrary = ({ onAddComponent, activeTab, onAddBackendComponent }) => {
   const frontendComponents = [
     { type: 'navbar', label: 'Navigation Bar', icon: Navigation, description: 'Website navigation' },
     { type: 'hero', label: 'Hero Section', icon: Layout, description: 'Main banner area' },
+    { type: 'layout', label: 'Layout Block', icon: Rows, description: 'Container for arranging content' },
     { type: 'features', label: 'Features Grid', icon: Star, description: 'Showcase features' },
     { type: 'pricing', label: 'Pricing Table', icon: DollarSign, description: 'Pricing plans' },
     { type: 'form', label: 'Contact Form', icon: Mail, description: 'User contact form' },
@@ -25,7 +26,7 @@ const ComponentLibrary = ({ onAddComponent, activeTab, onAddBackendComponent }) 
   const components = activeTab === 'frontend' ? frontendComponents : backendComponents;
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 p-4">
+    <div className="w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto">
       <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
         {activeTab === 'frontend' ? <Globe className="w-4 h-4 mr-2" /> : <Database className="w-4 h-4 mr-2" />}
         {activeTab === 'frontend' ? 'Frontend Components' : 'Backend Components'}

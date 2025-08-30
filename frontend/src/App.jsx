@@ -26,6 +26,7 @@ function App() {
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [showGeminiModal, setShowGeminiModal] = useState(false);
+  const [screenSize, setScreenSize] = useState('desktop');
 
   const addComponentToCanvas = (componentType) => {
     const newComponent = {
@@ -38,13 +39,21 @@ function App() {
   };
 
   const updateComponentProps = (componentId, newProps) => {
-    setCanvasComponents(prev => 
-      prev.map(comp => 
+    setCanvasComponents(prev => {
+      const updatedComponents = prev.map(comp => 
         comp.id === componentId ? { ...comp, props: { ...comp.props, ...newProps } } : comp
-      )
-    );
+      );
+      // Update the selected component state to reflect the latest changes
+      setSelectedComponent(updatedComponents.find(comp => comp.id === componentId));
+      return updatedComponents;
+    });
   };
   
+  const deleteComponent = (componentId) => {
+    setCanvasComponents(prev => prev.filter(comp => comp.id !== componentId));
+    setSelectedComponent(null);
+  };
+
   return (
     <div className="h-screen flex flex-col bg-gray-50">
       <TopNav 
@@ -56,6 +65,10 @@ function App() {
         setShowCodeModal={setShowCodeModal}
         setShowDeployModal={setShowDeployModal}
         setShowGeminiModal={setShowGeminiModal}
+        screenSize={screenSize}
+        setScreenSize={setScreenSize}
+        deleteComponent={deleteComponent}
+        selectedComponent={selectedComponent}
       />
       
       <div className="flex-1 flex overflow-hidden">
@@ -71,23 +84,14 @@ function App() {
               selectedComponent={selectedComponent}
               setSelectedComponent={setSelectedComponent}
               updateComponentProps={updateComponentProps}
+              deleteComponent={deleteComponent}
+              screenSize={screenSize}
             />
           ) : (
-            <div className="flex-1 bg-gray-100 overflow-auto flex items-center justify-center">
-              <div className="text-center">
-                <Bot className="w-20 h-20 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900">Chat with Gemini to build your Backend</h3>
-                <p className="text-gray-500 max-w-sm mt-2">
-                  Describe the APIs and data models you need, or choose from our pre-defined add-ons.
-                </p>
-                <button
-                  onClick={() => setShowGeminiModal(true)}
-                  className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                  Start a new chat
-                </button>
-              </div>
-            </div>
+            <BackendPanel 
+              project={project}
+              setProject={setProject}
+            />
           )}
         </div>
 
@@ -95,9 +99,14 @@ function App() {
           <PropertiesPanel 
             selectedComponent={selectedComponent}
             updateComponentProps={updateComponentProps}
+            deleteComponent={deleteComponent}
           />
         )}
       </div>
+      
+      <footer className="w-full bg-white border-t p-2 text-center text-xs text-gray-500">
+        © 2025 Eleven11. All Rights Reserved.
+      </footer>
 
       {showCodeModal && (
         <CodeGenerationModal 

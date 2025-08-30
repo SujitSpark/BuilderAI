@@ -1,11 +1,11 @@
 import React from 'react';
-import { Play, Download, Settings, Code, Database, Globe, Bot } from 'lucide-react';
+import { Play, Download, Settings, Code, Database, Globe, Bot, Monitor, Tablet, Trash2 } from 'lucide-react';
 import CodeGenerationModal from '../utils/CodeGenerationModal';
 import DeploymentModal from './DeploymentModal';
 import GeminiModal from './GeminiModal';
 
 
-const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents, setShowCodeModal, setShowDeployModal, setShowGeminiModal }) => {
+const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents, setShowCodeModal, setShowDeployModal, setShowGeminiModal, screenSize, setScreenSize, selectedComponent, deleteComponent }) => {
   
   const handleProjectNameChange = (e) => {
     setProject(prev => ({ ...prev, name: e.target.value }));
@@ -14,6 +14,11 @@ const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents
   const handlePublish = () => {
     setShowCodeModal(true);
   };
+
+  const screenSizes = [
+    { label: 'Desktop', value: 'desktop', icon: Monitor },
+    { label: 'Tablet', value: 'tablet', icon: Tablet }
+  ];
 
   return (
     <>
@@ -51,6 +56,27 @@ const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents
         </div>
 
         <div className="flex items-center space-x-4">
+          {activeTab === 'frontend' && (
+            <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+              {screenSizes.map((size) => {
+                const Icon = size.icon;
+                return (
+                  <button
+                    key={size.value}
+                    onClick={() => setScreenSize(size.value)}
+                    className={`px-3 py-1 rounded-md text-sm font-medium flex items-center space-x-1 ${
+                      screenSize === size.value 
+                        ? 'bg-white text-blue-600 shadow-sm' 
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{size.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
           <input
             type="text"
             value={project.name}
@@ -63,6 +89,16 @@ const TopNav = ({ project, setProject, activeTab, setActiveTab, canvasComponents
             <Settings className="w-4 h-4" />
             <span className="text-sm">Settings</span>
           </button>
+          
+          {selectedComponent && (
+            <button 
+              onClick={() => deleteComponent(selectedComponent.id)}
+              className="flex items-center space-x-1 px-3 py-1.5 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-md"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span className="text-sm">Delete</span>
+            </button>
+          )}
 
           {activeTab === 'backend' ? (
             <button

@@ -1,5 +1,11 @@
 export const getDefaultProps = (type) => {
   const defaults = {
+    layout: {
+      layoutType: 'flex',
+      flexDirection: 'flex-col',
+      gridCols: 1,
+      components: []
+    },
     hero: {
       title: 'Welcome to Our Website',
       subtitle: 'Build amazing experiences with our platform',
@@ -51,7 +57,7 @@ export const getDefaultProps = (type) => {
     team: {
       title: 'Meet Our Amazing Team',
       members: [
-        { name: 'John Smith', role: 'Founder', bio: 'Expert in full-stack development and product design.', image: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D' },
+        { name: 'John Smith', role: 'Founder', bio: 'Expert in full-stack development and product design.', image: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGUl20VudxwwfHwwfHx8MA%3D%3D' },
         { name: 'Sarah Chen', role: 'Lead Designer', bio: 'Passionate about creating beautiful and intuitive user interfaces.', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D' },
         { name: 'Alex Johnson', role: 'Backend Engineer', bio: 'Specializes in scalable cloud infrastructure and API development.', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D' }
       ]
